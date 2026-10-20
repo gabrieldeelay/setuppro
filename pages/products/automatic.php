@@ -38,6 +38,9 @@ try {
         'uses_reset' => false,
     ];
 }
+require_once __DIR__ . '/../../includes/campaign_ranking.php';
+$rankingTitle = 'Top Compradores ' . ((int) $ranking_type === 2 ? 'Diário' : 'Total');
+$rankingEmptyMessage = (int) $ranking_type === 2 ? 'Ainda não há pagamentos confirmados hoje.' : 'Ainda não há pagamentos confirmados neste período.';
 $rankingTimerHasPeriod = $rankingTimer['enabled'] && $rankingTimer['configured'];
 $rankingTimerIsEnded = $rankingTimerHasPeriod && $rankingTimer['state'] === 'ended';
 $rankingTimerShowStatus = $rankingTimerHasPeriod && in_array($rankingTimer['state'], ['running', 'ended'], true);
@@ -979,8 +982,8 @@ if ($available > 0 && $enable_sale == 1 && $enable_discount == 0 && $status == '
 }
 
 echo "\r\n";
-if ($status == '1') { ?>
-<button type="button" class="ranking-spotlight<?= $rankingTimerPublicClass ?>" data-bs-toggle="modal" data-bs-target="#modal-premios" aria-label="Abrir Top Compradores Diário">
+if ($status == '1' && (int) $enable_ranking === 1) { ?>
+<button type="button" class="ranking-spotlight<?= $rankingTimerPublicClass ?>" data-bs-toggle="modal" data-bs-target="#modal-premios" aria-label="Abrir <?= htmlspecialchars($rankingTitle, ENT_QUOTES, 'UTF-8') ?>">
     <span class="ranking-spotlight__title">
         <span class="ranking-spotlight__icon" aria-hidden="true">
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -988,7 +991,7 @@ if ($status == '1') { ?>
                 <path d="M8 6H5.5v1A3.5 3.5 0 0 0 9 10.5M16 6h2.5v1a3.5 3.5 0 0 1-3.5 3.5M12 11.5V16m-3 4h6m-5-4h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
         </span>
-        <span>Top Compradores Diário</span>
+        <span><?= htmlspecialchars($rankingTitle, ENT_QUOTES, 'UTF-8') ?></span>
     </span>
     <?php if ($rankingTimerShowStatus): ?>
         <span class="ranking-spotlight__event">
@@ -1665,7 +1668,7 @@ if ($available > 0 && $status == '1') {
           <?php 
         if ($quantidade_auto_cota == 1 || $quantidade_auto_cota_diario == 1): ?>
             <div class="app-title mb-2 gap-2" style="align-items: flex-start;">
-                <h1 style="font-size: 1.125rem; filter: blur(0px);">🔄  Bilhete Maior e Menor</h1>
+                <h1 style="font-size: 1.125rem; filter: blur(0px);">��  Bilhete Maior e Menor</h1>
                 <div class="app-title-desc" style="filter: blur(0px);">Instantâneos</div>
             </div>
 
@@ -1825,7 +1828,7 @@ if ($available > 0 && $status == '1') {
                                         <div class="modal-dialog modal-dialog-centered modal-md">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title">🏆 Top Compradores Diário</h5><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    <h5 class="modal-title">🏆 <?= htmlspecialchars($rankingTitle, ENT_QUOTES, 'UTF-8') ?></h5><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 
                                                 </div>
                                                 
@@ -1856,26 +1859,16 @@ if ($available > 0 && $status == '1') {
                                                     endif;
                                                     ?>
                                                     <?php
-                                                    $ranking_limit = 3;
-                                                    $rankingConditions = $rankingTimerHasPeriod
-                                                        ? ranking_timer_sql_conditions('o', $rankingTimer, $conn)
-                                                        : [
-                                                            payment_ranking_datetime_sql('o') . " >= '" . $conn->real_escape_string($rankingWindowStart) . "'",
-                                                            payment_ranking_datetime_sql('o') . " <= '" . $conn->real_escape_string($rankingWindowEnd) . "'",
-                                                        ];
-                                                    $requests = $conn->query(
-                                                        'SELECT c.id, c.firstname, c.lastname, SUM(o.quantity) AS total_quantity ' .
-                                                        'FROM order_list o ' .
-                                                        'INNER JOIN customer_list c ON c.id = o.customer_id ' .
-                                                        'WHERE o.product_id = ' . (int) $id . ' AND o.status = 2 AND ' . implode(' AND ', $rankingConditions) . ' ' .
-                                                        'GROUP BY c.id, c.firstname, c.lastname ' .
-                                                        'ORDER BY total_quantity DESC, c.firstname ASC, c.lastname ASC ' .
-                                                        'LIMIT ' . $ranking_limit
-                                                    );
+                                                    $rankingRows = setuppro_campaign_ranking($conn, [
+                                                        'id' => $id, 'enable_ranking' => $enable_ranking,
+                                                        'ranking_type' => $ranking_type, 'ranking_qty' => $ranking_qty,
+                                                        'enable_ranking_definido' => $enable_ranking_definido,
+                                                        'ranking_ini' => $ranking_ini, 'ranking_fim' => $ranking_fim,
+                                                    ], $rankingTimer);
 
                                                     $count = 0;
 
-                                                    while ($row = $requests->fetch_assoc()) {
+                                                    foreach ($rankingRows as $row) {
                                                         ++$count;
                                                         $ranking_name_parts = preg_split('/\s+/u', trim((string) $row['firstname']), -1, PREG_SPLIT_NO_EMPTY);
                                                         $ranking_first_name = $ranking_name_parts[0] ?? 'Cliente';
@@ -1902,7 +1895,7 @@ if ($available > 0 && $status == '1') {
                                                     }
 
                                                     if ($count === 0) {
-                                                        echo '<p class="text-center text-muted my-3">Ainda não há pagamentos confirmados hoje.</p>';
+                                                        echo '<p class="text-center text-muted my-3">' . htmlspecialchars($rankingEmptyMessage, ENT_QUOTES, 'UTF-8') . '</p>';
                                                     }
 
                                                     ?>
