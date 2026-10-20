@@ -28,7 +28,7 @@ if (!function_exists('jnsalles_detect_base_url')) {
         }
 
         if ($host === '' || !preg_match('/^[a-z0-9.-]+(?::\d+)?$/i', $host)) {
-            return 'https://jnsalles.online/';
+            return 'https://setuppro.com.br/';
         }
 
         $https = strtolower((string) ($_SERVER['HTTPS'] ?? ''));
@@ -60,14 +60,9 @@ $databaseIsConfigured =
     || (defined('DB_SERVER') && defined('DB_NAME') && defined('DB_USERNAME') && defined('DB_PASSWORD'));
 
 if (!$databaseIsConfigured) {
+    // Este projeto usa apenas a configuracao privada do seu proprio diretorio.
+    // Nao herdar configuracoes da assinatura ou do site original.
     $privateConfigCandidates = [];
-    $configuredPath = getenv('DB_LOCAL_CONFIG');
-    if (is_string($configuredPath) && $configuredPath !== '') {
-        $privateConfigCandidates[] = $configuredPath;
-    }
-    if (!empty($_SERVER['DOCUMENT_ROOT'])) {
-        $privateConfigCandidates[] = dirname(rtrim((string) $_SERVER['DOCUMENT_ROOT'], '/\\')) . DIRECTORY_SEPARATOR . 'db.local.php';
-    }
     $privateConfigCandidates[] = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'db.local.php';
 
     $privateConfigLoaded = false;
@@ -103,6 +98,12 @@ foreach (['DB_HOST', 'DB_NAME', 'DB_USER', 'DB_PASSWORD'] as $requiredDatabaseCo
         http_response_code(503);
         exit('Configuracao privada do banco incompleta.');
     }
+}
+
+// Falhar antes de abrir qualquer conexao se houver configuracao de outro site.
+if (DB_NAME !== 'sallesano_setuppro' || DB_USER !== 'setuppro_user') {
+    http_response_code(503);
+    exit('Use exclusivamente o banco e o usuario do ambiente SetupPro.');
 }
 
 if (!function_exists('jnsalles_admin_password_hash')) {
