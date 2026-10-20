@@ -54,6 +54,7 @@ if (isset($parts['query'])) {
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
    <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/style.css?v=<?= rawurlencode((string) $styleVersion) ?>">
    <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/hot-pink-theme.css?v=<?= rawurlencode((string) $pinkThemeVersion) ?>">
+   <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/setuppro-mirror.css?v=1">
    <script src="<?php echo BASE_URL; ?>includes/jquery/jquery.min.js"></script>
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
    <script>
@@ -203,30 +204,10 @@ if (isset($parts['query'])) {
         <header class="header-app-header">
          <div class="header-app-header-container">
             <div class="container-600 font-mdd">
-               <div style="text-align-last: justify; padding: 10 0 10 0;">
-                  <a class="flex-grow-1 text-center" href="/">
-                     <?php if ($logo): ?>
-                        <img src="<?php echo $logo; ?>" class="header-app-brand">
-                     <?php else: ?>
-                        <img src="<?php echo BASE_URL; ?>assets/img/logo.png" class="header-app-brand">
-                     <?php endif; ?>
-                  </a>
-                  <button type="button" aria-label="Menu" class="btn btn-link text-white font-lgg ps-0" data-bs-toggle="modal" data-bs-target="#mobileMenu" style="margin-top:5px">
-                     <svg style="font-size: 24px;" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="MuiBox-root css-0 iconify iconify--eva" sx="[object Object]" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24">
-                        <circle cx="4" cy="12" r="1" fill="currentColor"></circle>
-                        <rect width="14" height="2" x="7" y="11" fill="currentColor" rx=".94" ry=".94"></rect>
-                        <rect width="18" height="2" x="3" y="16" fill="currentColor" rx=".94" ry=".94"></rect>
-                        <rect width="18" height="2" x="3" y="6" fill="currentColor" rx=".94" ry=".94"></rect>
-                     </svg>
-                  </button>
-                  <!-- <?php if (CONTACT_TYPE == '1'): ?>
-                     <a class="btn btn-link text-white pe-0 text-right text-decoration-none" href="/contato">
-                     <?php else: ?>
-                        <a class="btn btn-link text-white pe-0 text-right text-decoration-none" href="https://api.whatsapp.com/send/?phone=55<?php echo $_settings->info('phone'); ?>">
-                        <?php endif; ?>
-                        <div class="duvida d-flex justify-content-end opacity-50"><i class="bi bi-chat-right-dots-fill"></i></div>
-                        <div class="duvida font-xss" style="color: #fdffa9;">Suporte</div>
-                        </a> -->
+               <div class="mirror-header-row">
+                  <button type="button" aria-label="Menu" class="btn btn-link text-white" data-bs-toggle="modal" data-bs-target="#mobileMenu"><i class="bi bi-filter-left" style="font-size:30px"></i></button>
+                  <a class="mirror-brand" href="<?= BASE_URL ?>"><img src="<?= htmlspecialchars($logo, ENT_QUOTES, 'UTF-8') ?>" class="header-app-brand" alt="SETUPRO"></a>
+                  <a class="mirror-support" href="<?= BASE_URL ?>contato"><i class="bi bi-chat-dots-fill"></i>Suporte!</a>
                </div>
                <!-- <div class="gemeoss row px-0 pt-2 w-100 m-0" style="background-color: var(--incrivel-primaria);color: var(--incrivel-primariaColor); font-size: 14px;color:#fff;">
                   <div class="px-0">

@@ -826,6 +826,13 @@ if ($id && $id != '') {
     exit();
 }
 
+require_once dirname(__DIR__, 2) . '/includes/setuppro_archive.php';
+$archivedCampaign = setuppro_archived_campaign($slug);
+if ((int) $status === 3 && $archivedCampaign) {
+    require __DIR__ . '/archive.php';
+    return;
+}
+
 $totalNumbers = $paid_numbers + $pending_numbers;
 $percentage = ($totalNumbers / $qty_numbers) * 100;
 if ((85 <= $percentage) && $status == 1 && $status_display != 2) {

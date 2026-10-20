@@ -60,22 +60,16 @@ $valid = $html !== ''
     && str_contains($html, '_preview_base_match_')
     && str_contains($html, 'plesk-site-preview');
 if ($target === 'home') {
-	$valid = $valid
-		&& str_contains($html, 'home-campaign-card')
-		&& str_contains($html, 'Termo informativo da ação promocional')
-		&& str_contains($html, 'A participação é permitida apenas para maiores de 18')
-		&& str_contains($html, $campaignName)
-		&& str_contains($html, $finalCampaignName)
-		&& str_contains($html, 'Finalizada')
-		&& str_contains($html, 'Comprador ' . $suffix)
-		&& str_contains($html, 'margin-top:auto')
-        && str_contains($html, 'Desenvolvido por')
-        && str_contains($html, htmlspecialchars((string) $_settings->info('name'), ENT_QUOTES, 'UTF-8'))
+    $valid = $valid
+        && str_contains($html, 'mirror-campaign')
+        && str_contains($html, 'mirror-winner')
+        && str_contains($html, $campaignName)
+        && str_contains($html, $finalCampaignName)
+        && str_contains($html, 'Concluído')
+        && str_contains($html, 'Comprador ' . $suffix)
+        && str_contains($html, 'Perguntas frequentes')
         && !str_contains($html, 'NXP GAMING SOLUTION LTDA')
-        && !str_contains($html, '64.895.043/0001-65')
-        && !str_contains($html, 'Entrar em contato')
-        && !str_contains($html, 'suportejnsalles.vercel.app')
-        && !str_contains($html, '/contato.php?site=');
+        && !str_contains($html, '64.895.043/0001-65');
 } elseif ($target === 'product') {
     $purchasePosition = strpos($html, 'Quero participar');
     $winningTicketsPosition = strpos($html, 'id="cotas-container"');

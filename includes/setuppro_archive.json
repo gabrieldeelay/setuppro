@@ -1,0 +1,86 @@
+{
+  "source": "https://setuppro.com.br/",
+  "captured_on": "2026-10-20",
+  "logo": "uploads/setuppro-archive/logo.png",
+  "favicon": "uploads/setuppro-archive/favicon.png",
+  "campaigns": [
+    {
+      "slug": "playstation-5-resultado-relampago-2",
+      "name": "PLAYSTATION 5 RESULTADO RELÂMPAGO",
+      "subtitle": "Resultado pela Loteria Federal",
+      "status": "completed",
+      "source_url": "https://setuppro.com.br/campanha/playstation-5-resultado-relampago-2",
+      "date": "2026-06-06",
+      "image": "uploads/setuppro-archive/IMG_5733.png",
+      "description": "",
+      "price": "0.20",
+      "winner": {
+        "name": "Carlos Luis",
+        "number": "09729",
+        "image": "uploads/setuppro-archive/avatar.png"
+      }
+    },
+    {
+      "slug": "pc-gamer-da-nasa-preto-ou-branco-ou-15k-pix-2",
+      "name": "PC GAMER DA NASA PRETO OU BRANCO OU 15k PIX",
+      "subtitle": "Resultado pela loteria federal",
+      "status": "completed",
+      "source_url": "https://setuppro.com.br/campanha/pc-gamer-da-nasa-preto-ou-branco-ou-15k-pix-2",
+      "date": "2026-06-05",
+      "image": "uploads/setuppro-archive/1_38047354-c07b-4c4f-b2f2-39d334019f9e.jpeg",
+      "description": "",
+      "price": "0.20",
+      "winner": {
+        "name": "Ghreici cheli Segura Da Silva Rosa",
+        "number": "065393",
+        "image": "uploads/setuppro-archive/avatar.png"
+      }
+    },
+    {
+      "slug": "ps5-pro-smart-tv-65-4k-oculos-vr-ou-10k-no-pix-2",
+      "name": "PS5 PRO + Smart TV 65” 4K + ÓCULOS VR ou 10K no PIX",
+      "subtitle": "Resultado pela loteria federal",
+      "status": "completed",
+      "source_url": "https://setuppro.com.br/campanha/ps5-pro-smart-tv-65-4k-oculos-vr-ou-10k-no-pix-2",
+      "date": "2026-02-11",
+      "image": "uploads/setuppro-archive/IMG_1061.jpeg",
+      "description": "<p>Chegou a sua chance de <strong>mudar o nível do entretenimento em casa!</strong><br/>Participe da nossa <strong>AÇÃO ESPECIAL</strong> e concorra a um <strong>combo dos sonhos</strong>:</p><p>🏆 <strong>PRÊMIOS:</strong><br/>🎮 <strong>PS5 Pro</strong><br/>📺 <strong>Smart TV 65” 4K</strong><br/>🥽 <strong>Óculos VR</strong></p><p>Tudo isso em <strong>uma única ação</strong>, com sorteio transparente e chances reais de ganhar!</p><p>💥 Poucos números<br/>🎯 Alta chance de premiação<br/>📅 Sorteio ao vivo</p><p>Não fique de fora! Garanta já seu número e venha viver uma experiência <strong>next level</strong> 🎮✨</p>",
+      "price": "0.20",
+      "winner": {
+        "name": "Carlos Eduardo",
+        "number": "037337",
+        "image": "uploads/setuppro-archive/avatar.png"
+      }
+    },
+    {
+      "slug": "setup-gamer-completo-2",
+      "name": "SETUP GAMER COMPLETO!",
+      "subtitle": "Resultado pela Loteria Federal",
+      "status": "completed",
+      "source_url": "https://setuppro.com.br/campanha/setup-gamer-completo-2",
+      "date": "2025-11-29",
+      "image": "uploads/setuppro-archive/2_883D7BAA-946A-4EE9-86DE-35DE006050FE.jpeg",
+      "description": "<p>🎮 <strong>RIFA PC GAMER COMPLETO + PERIFÉRICOS!</strong> 🚀</p><p>💥 <strong>Sorteio pela Loteria Federal</strong> — 100% seguro e transparente!<br/>\n\nCada número vale uma chance de levar esse <strong>setup dos sonhos</strong>, e o ganhador será definido conforme o resultado oficial da <strong>Caixa Econômica Federal</strong>.</p><p>💻 <strong>PC GAMER MONSTRO:</strong></p><ul>\n<li>\n<p>Ryzen 7 5700X</p>\n</li>\n<li>\n<p>Placa-mãe MSI B550M-A PRO</p>\n</li>\n<li>\n<p>32GB RAM (Asgard 2x16GB 3600MHz)</p>\n</li>\n<li>\n<p>RTX 5060 8GB</p>\n</li>\n<li>\n<p>Water Cooler 240mm</p>\n</li>\n<li>\n<p>Fonte Gamemax 600W</p>\n</li>\n</ul><p>🎧 <strong>PERIFÉRICOS INCLUSOS:</strong></p><ul>\n<li>\n<p>Monitor LG UltraGear 144Hz</p>\n</li>\n<li>\n<p>Braço Articulado NB</p>\n</li>\n<li>\n<p>Teclado GamaKay TK75-HE</p>\n</li>\n<li>\n<p>Mouse Rapoo VT3 Pro Max</p>\n</li>\n<li>\n<p>Headset Mchose V9 PRO</p>\n</li>\n<li>\n<p>Microfone FEEL WORD PM1</p>\n</li>\n<li>\n<p>Mousepad Zeus</p>\n</li>\n</ul><p>\n</p><p>🔥 Participe agora e concorra a um <strong>setup completo e pronto pra jogar tudo no ultra!</strong><br/>\n\n🎟️ <strong>Garanta seu número e boa sorte!</strong></p>",
+      "price": "0.20",
+      "winner": {
+        "name": "Arthur Vieira",
+        "number": "46553",
+        "image": "uploads/setuppro-archive/avatar.png"
+      }
+    }
+  ],
+  "faq": [
+    {
+      "question": "Como acessar minhas compras?",
+      "answer": "Fazendo login no site e abrindo o Menu Principal, você consegue consultar suas últimas compras no menu"
+    },
+    {
+      "question": "Como envio o comprovante?",
+      "answer": "Caso você tenha feito o pagamento via Pix QR Code ou copiando o código, não é necessário enviar o comprovante, aguardando até 5 minutos após o pagamento, o sistema irá dar baixa automaticamente, para mais dúvidas entre em contato conosco clicando aqui."
+    },
+    {
+      "question": "Como é o processo do sorteio?",
+      "answer": "O sorteio será realizado com base na extração da Loteria Federal, conforme Condições de Participação constantes no título"
+    }
+  ]
+}
