@@ -187,8 +187,7 @@ if ($enable_footer == '1') { ?>
 						<span>© Copyright <?= date('Y') ?> - <?= $site_name ?> Todos os direitos reservados.</span><br>
 					<?php } ?>
 					<div class="footer-company-registration" aria-label="Dados da empresa">
-						<strong>NXP GAMING SOLUTION LTDA</strong>
-						<span>CNPJ 64.895.043/0001-65</span>
+						<strong><?= htmlspecialchars((string) $site_name, ENT_QUOTES, 'UTF-8') ?></strong>
 					</div><br>
 						<span>Desenvolvido por</span> <span
                        class="font-weight-600 font-xs badge"

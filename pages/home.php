@@ -185,12 +185,12 @@ if ($qry->num_rows > 0) {
 
 	<section class="home-legal-card" aria-labelledby="home-legal-title">
 		<div class="home-legal-card__brand">
-			<img src="<?= htmlspecialchars($logo ?: BASE_URL . 'assets/img/logo.png', ENT_QUOTES, 'UTF-8') ?>" alt="NXP Salles">
+			<img src="<?= htmlspecialchars($logo ?: BASE_URL . 'assets/img/logo.png', ENT_QUOTES, 'UTF-8') ?>" alt="<?= htmlspecialchars((string) $_settings->info('name'), ENT_QUOTES, 'UTF-8') ?>">
 		</div>
 		<div class="home-legal-card__content">
 			<span class="home-legal-card__eyebrow">Informação importante</span>
 			<h2 id="home-legal-title">Termo informativo da ação promocional</h2>
-			<p>Rifa promocional realizada por NXP Salles, inscrita no CNPJ 64.895.043/0001-65. Ao adquirir um número ou cota desta rifa, o participante declara estar ciente e de acordo com as regras da ação promocional. A participação é permitida apenas para maiores de 18 (dezoito) anos.</p>
+			<p>A organização responsável pela ação promocional deve ser identificada no regulamento de cada campanha. Ao adquirir um número ou cota, o participante declara estar ciente e de acordo com as regras da ação promocional. A participação é permitida apenas para maiores de 18 (dezoito) anos.</p>
 			<p>O pagamento da cota garante a participação no sorteio correspondente à campanha divulgada pela organização. Não haverá reembolso após a confirmação do pagamento, salvo nos casos previstos em lei ou em eventual cancelamento da ação pela organização.</p>
 			<p>O sorteio, a apuração do ganhador e a entrega do prêmio seguirão os critérios informados na divulgação oficial da campanha. Ao participar, o cliente autoriza a divulgação do resultado e do nome do ganhador nos canais da organização, sem ônus adicional. Em caso de dúvidas, o participante deve entrar em contato diretamente com a organização responsável.</p>
 		</div>
