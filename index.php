@@ -2,16 +2,6 @@
 
 
 require_once 'settings.php';
-require_once __DIR__ . '/includes/migrate_setuppro_archive.php';
-try {
-    if (setuppro_migrate_public_archive($conn)) {
-        $_settings->load_system_info();
-    }
-} catch (Throwable $error) {
-    error_log('[setuppro-archive] ' . $error->getMessage());
-    http_response_code(503);
-    exit('Atualizacao de conteudo em andamento. Atualize a pagina em alguns segundos.');
-}
 require_once 'pages/inc/header.php';
 require_once 'pages/inc/set-custom.php';
 require_once 'pages/inc/set-custom-style.php';

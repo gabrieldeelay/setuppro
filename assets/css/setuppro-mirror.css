@@ -3,16 +3,16 @@ html, body { background:#0f121a!important; color:#fff!important; }
 body { font-family:Montserrat,sans-serif!important; }
 .header-app-header, .header-app-header-container { background:#000!important; border:0!important; box-shadow:none!important; }
 .header-app-header .container-600 { max-width:600px!important; }
-.header-app-header-container { min-height:110px!important; padding:0!important; }
-.mirror-header-row { height:110px; display:grid; grid-template-columns:60px 1fr 72px; align-items:center; }
+.header-app-header-container { min-height:93px!important; padding:0!important; }
+.mirror-header-row { height:93px; display:grid; grid-template-columns:60px 1fr 72px; align-items:center; }
 .mirror-header-row > button { justify-self:start; padding:0!important; margin:0!important; }
 .mirror-header-row > .mirror-brand { justify-self:center; }
 .mirror-header-row .header-app-brand { display:block; width:120px!important; max-width:120px!important; height:auto!important; max-height:65px; object-fit:contain; }
 .mirror-support { color:#fff!important; font-size:12px; line-height:1.1; text-decoration:none; text-align:center; }
 .mirror-support i { display:block; color:#999; font-size:17px; }
 .black-bar { display:none!important; }
-body .app-main { width:calc(100% - 24px)!important; max-width:600px!important; margin:0 auto 24px!important; padding:12px!important; border-radius:24px 24px 0 0!important; background:#343a40!important; color:#fff!important; position:relative; }
-body .mirror-home, body .mirror-archive { margin-top:-18px!important; }
+body .app-main { width:calc(100% - 24px)!important; max-width:600px!important; margin:0 auto 24px!important; padding:12px!important; border-radius:20px!important; background:#343a40!important; color:#fff!important; position:relative; }
+body .mirror-home, body .mirror-archive { margin-top:0!important; }
 .mirror-title { display:flex; align-items:baseline; gap:4px; margin:0 0 10px; }
 .mirror-title h1 { margin:0; color:#fff!important; font-size:21px!important; font-weight:650!important; line-height:1.4; }
 .mirror-title > span { font-size:13px; color:#eee; }
