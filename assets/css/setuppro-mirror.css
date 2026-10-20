@@ -52,7 +52,12 @@ body .app-main .app-title h1,body .app-main .SorteioTpl_title__3RLtu { color:#ff
 body .app-main .SorteioTpl_info__t1BZr,body .app-main .SorteioTpl_sorteioTpl__home { background:#0f121a!important; color:#fff!important; }
 body .app-main .SorteioTpl_descricao__1b7iL,body .app-main .SorteioTpl_dtSorteio__2mfSc { color:#eee!important; }
 /* Focused contrast fixes: preserve the original compact page layout. */
-body .mirror-campaign-active { border:2px solid #f3da19; padding:5px; background:#12151c; }
+body .mirror-campaign-active { border:2px solid #f3da19; padding:7px; background:#12151c; min-height:130px; gap:12px; }
+body .mirror-campaign-active > img { flex-basis:112px; width:112px; height:112px; }
+body .mirror-campaign-active .mirror-campaign-copy { padding:10px 2px 12px 0; align-self:center; }
+body .mirror-campaign-active h2 { font-size:16px!important; line-height:1.25; }
+body .mirror-archive-divider { display:flex; align-items:center; gap:10px; margin:18px 0 10px; color:#d1d7e0; font-size:11px; font-weight:500; }
+body .mirror-archive-divider::after { content:''; flex:1; height:1px; background:#59616c; }
 body .mirror-campaign-active .mirror-badge { background:#f3da19; color:#171a0c!important; padding:3px 7px; }
 body .mirror-campaign-active h2 { font-weight:650!important; }
 body .mirror-campaign-closed { background:#292e36; border:1px solid #464c55; }
@@ -78,3 +83,4 @@ body .purchase-submit-button * { color:#fff!important; }
 body .purchase-helper-card,body .purchase-helper-card .card-body,body .purchase-helper-card p { color:#e0e5ec!important; }
 a:focus-visible,button:focus-visible,summary:focus-visible { outline:2px solid #f3da19!important; outline-offset:3px; }
 @media(max-width:620px) { body .app-main { width:100%!important; }.mirror-header-row { padding:0 15px; }.mirror-campaign h2 { font-size:14px!important; }.mirror-title h1 { font-size:20px!important; } }
+@media(max-width:420px) { body .mirror-campaign-active { min-height:118px; gap:10px; }body .mirror-campaign-active > img { flex-basis:98px; width:98px; height:98px; }body .mirror-campaign-active h2 { font-size:15px!important; } }

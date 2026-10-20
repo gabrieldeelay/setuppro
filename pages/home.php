@@ -4,13 +4,17 @@ $campaigns = $conn->query("SELECT * FROM product_list WHERE delete_flag = 0 AND 
 ?>
 <div class="container app-main mirror-home">
     <div class="mirror-title"><h1>⚡ Sorteios</h1><span>Escolha sua sorte</span></div>
+    <?php $closedHeadingShown = false; ?>
     <?php while ($campaign = $campaigns->fetch_assoc()): ?>
+        <?php if ((int) $campaign['status'] === 3 && !$closedHeadingShown): $closedHeadingShown = true; ?>
+            <div class="mirror-archive-divider"><span>Campanhas encerradas</span></div>
+        <?php endif; ?>
         <a class="mirror-campaign<?= (int) $campaign['status'] === 1 ? ' mirror-campaign-active' : ((int) $campaign['status'] === 3 ? ' mirror-campaign-closed' : '') ?>" href="<?= BASE_URL ?>campanha/<?= rawurlencode($campaign['slug']) ?>">
             <img src="<?= setuppro_html(validate_image($campaign['image_path'])) ?>" alt="<?= setuppro_html($campaign['name']) ?>">
             <div class="mirror-campaign-copy">
                 <h2><?= setuppro_html($campaign['name']) ?></h2>
                 <p><?= setuppro_html($campaign['subtitle']) ?></p>
-                <span class="mirror-badge"><?= (int) $campaign['status'] === 3 ? 'Concluído' : ((int) $campaign['status'] === 2 ? 'Em breve' : 'Ativa • Adquira já!') ?></span>
+                <span class="mirror-badge"><?= (int) $campaign['status'] === 3 ? 'Concluído' : ((int) $campaign['status'] === 2 ? 'Em breve' : 'Adquira já!') ?></span>
                 <?php if ($campaign['date_of_draw']): ?><time><i class="bi bi-calendar-check"></i> <?= date('d/m', strtotime($campaign['date_of_draw'])) ?></time><?php endif; ?>
             </div>
         </a>
