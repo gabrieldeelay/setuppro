@@ -1,22 +1,34 @@
 <?php
 require_once __DIR__ . '/../includes/setuppro_archive.php';
-$active = $conn->query("SELECT * FROM product_list WHERE delete_flag = 0 AND private_draw = 0 AND status = 1 ORDER BY featured_draw DESC, date_created DESC LIMIT 10");
-$closed = $conn->query("SELECT * FROM product_list WHERE delete_flag = 0 AND private_draw = 0 AND status = 3 ORDER BY date_of_draw DESC LIMIT 10");
+$campaigns = $conn->query("SELECT * FROM product_list WHERE delete_flag = 0 AND private_draw = 0 ORDER BY date_created DESC, id DESC LIMIT 10");
 ?>
-<main class="container app-main mirror-home setup-home">
-<header class="setup-intro"><span class="setup-eyebrow">SEU PRÓXIMO SETUP COMEÇA AQUI</span><h1>Grandes prêmios.<br><span>Novas possibilidades.</span></h1><p>Escolha sua campanha, acompanhe suas cotas e confira cada resultado por aqui.</p><nav aria-label="Navegação da página"><a href="#campanhas">Campanhas</a><a href="#resultados">Resultados</a><a href="<?= BASE_URL ?>user/compras">Minhas compras ↗</a></nav></header>
-<?php if ($active->num_rows): ?>
-<section id="campanhas"><div class="setup-section-heading"><div><span class="setup-eyebrow">É A SUA VEZ</span><h2>Campanha em destaque</h2></div><span class="setup-live">● Ativa</span></div>
-<?php while ($c = $active->fetch_assoc()): ?>
-<article class="setup-featured"><a class="setup-featured-image" href="<?= BASE_URL ?>campanha/<?= rawurlencode($c['slug']) ?>"><img src="<?= setuppro_html(validate_image($c['image_path'])) ?>" alt="<?= setuppro_html($c['name']) ?>"></a><div class="setup-featured-content"><span class="setup-eyebrow">ESCOLHA O SEU PRÊMIO</span><h3><?= setuppro_html($c['name']) ?></h3><p><?= setuppro_html($c['subtitle']) ?></p><div class="setup-price"><span>Cotas a partir de</span><strong>R$ <?= number_format((float) $c['price'], 2, ',', '.') ?></strong><small>por número</small></div><?php if ((int) $c['enable_ranking'] === 1): ?><div class="setup-ranking-note"><i class="bi bi-trophy"></i><span>Top Compradores <strong><?= (int) $c['ranking_type'] === 2 ? 'Diário' : 'Total' ?></strong><small>Acompanhe o ranking na campanha</small></span></div><?php endif; ?><a class="setup-primary" href="<?= BASE_URL ?>campanha/<?= rawurlencode($c['slug']) ?>">Conhecer a campanha <i class="bi bi-arrow-up-right"></i></a><small class="setup-detail">Confira os prêmios e as regras antes de participar.</small></div></article>
-<?php endwhile; ?></section><?php endif; ?>
-<section class="setup-how" aria-label="Como funciona"><div><span>01</span><p><strong>Escolha a campanha</strong>Conheça o prêmio e as regras.</p></div><div><span>02</span><p><strong>Selecione suas cotas</strong>Veja a quantidade e o valor.</p></div><div><span>03</span><p><strong>Acompanhe tudo</strong>Consulte suas compras e resultados.</p></div></section>
-<section id="resultados" class="setup-results"><div class="setup-section-heading"><div><span class="setup-eyebrow">HISTÓRICO SETUPPRO</span><h2>Campanhas encerradas</h2></div><span class="setup-section-count"><?= (int) $closed->num_rows ?> campanhas</span></div><div class="setup-archive-grid">
-<?php while ($c = $closed->fetch_assoc()): ?><a class="mirror-campaign" href="<?= BASE_URL ?>campanha/<?= rawurlencode($c['slug']) ?>"><img loading="lazy" src="<?= setuppro_html(validate_image($c['image_path'])) ?>" alt="<?= setuppro_html($c['name']) ?>"><div class="mirror-campaign-copy"><span class="mirror-badge">Concluído</span><h2><?= setuppro_html($c['name']) ?></h2><p>Ver resultado ↗</p><?php if ($c['date_of_draw']): ?><time><?= date('d/m/Y', strtotime($c['date_of_draw'])) ?></time><?php endif; ?></div></a><?php endwhile; ?>
-</div></section>
-<?php $completed = $conn->query("SELECT * FROM product_list WHERE delete_flag = 0 AND private_draw = 0 AND draw_number <> '' ORDER BY date_of_draw DESC LIMIT 5"); ?>
-<?php if ($completed->num_rows): ?><section class="mirror-winners setup-winners"><div class="setup-section-heading"><div><span class="setup-eyebrow">QUEM JÁ GANHOU</span><h2>Premiados</h2></div><i class="bi bi-trophy setup-section-icon"></i></div><div class="setup-winner-grid"><?php while ($product = $completed->fetch_assoc()): ?><?php foreach (setuppro_public_winners($conn, $product) as $winner) { setuppro_render_winner($winner); } ?><?php endwhile; ?></div></section><?php endif; ?>
-<section class="mirror-faq setup-faq"><div class="setup-section-heading"><div><span class="setup-eyebrow">TUDO MAIS CLARO</span><h2>Perguntas frequentes</h2></div></div><?php foreach (setuppro_archive_data()['faq'] ?? [] as $faq): ?><details><summary><?= setuppro_html($faq['question']) ?></summary><p><?= setuppro_html($faq['answer']) ?></p></details><?php endforeach; ?></section>
-<a class="setup-contact" href="<?= BASE_URL ?>contato"><i class="bi bi-chat-square-text"></i><span><strong>Precisa de uma mão?</strong><small>Fale com o suporte SetupPro</small></span><i class="bi bi-arrow-up-right"></i></a>
-<footer class="setup-footer"><img src="<?= BASE_URL ?>uploads/setuppro-archive/logo.png" alt="SetupPro"><span>Campanhas, prêmios e novas possibilidades.</span><a href="<?= BASE_URL ?>admin/login.php"><i class="bi bi-lock"></i> Área administrativa</a></footer>
-</main>
+<div class="container app-main mirror-home">
+    <div class="mirror-title"><h1>⚡ Sorteios</h1><span>Escolha sua sorte</span></div>
+    <?php while ($campaign = $campaigns->fetch_assoc()): ?>
+        <a class="mirror-campaign" href="<?= BASE_URL ?>campanha/<?= rawurlencode($campaign['slug']) ?>">
+            <img src="<?= setuppro_html(validate_image($campaign['image_path'])) ?>" alt="<?= setuppro_html($campaign['name']) ?>">
+            <div class="mirror-campaign-copy">
+                <h2><?= setuppro_html($campaign['name']) ?></h2>
+                <p><?= setuppro_html($campaign['subtitle']) ?></p>
+                <span class="mirror-badge"><?= (int) $campaign['status'] === 3 ? 'Concluído' : ((int) $campaign['status'] === 2 ? 'Em breve' : 'Adquira já!') ?></span>
+                <?php if ($campaign['date_of_draw']): ?><time><i class="bi bi-calendar-check"></i> <?= date('d/m', strtotime($campaign['date_of_draw'])) ?></time><?php endif; ?>
+            </div>
+        </a>
+    <?php endwhile; ?>
+    <a class="mirror-help" href="<?= BASE_URL ?>contato"><span>🤷</span><div><h3>Dúvidas</h3><p>Fale conosco</p></div></a>
+    <?php $completed = $conn->query("SELECT * FROM product_list WHERE delete_flag = 0 AND private_draw = 0 AND draw_number <> '' ORDER BY date_of_draw DESC LIMIT 5"); ?>
+    <?php if ($completed->num_rows): ?>
+    <section class="mirror-winners">
+        <div class="mirror-title"><h1>🎉 Premiados</h1><span>do sorteios</span></div>
+        <?php while ($product = $completed->fetch_assoc()): ?>
+            <?php foreach (setuppro_public_winners($conn, $product) as $winner) { setuppro_render_winner($winner); } ?>
+        <?php endwhile; ?>
+    </section>
+    <?php endif; ?>
+    <section class="mirror-faq">
+        <div class="mirror-title"><h1>🙋🏼 Perguntas frequentes</h1></div>
+        <?php foreach (setuppro_archive_data()['faq'] ?? [] as $faq): ?>
+            <details><summary><?= setuppro_html($faq['question']) ?></summary><p><?= setuppro_html($faq['answer']) ?></p></details>
+        <?php endforeach; ?>
+    </section>
+</div>
