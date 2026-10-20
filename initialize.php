@@ -101,7 +101,7 @@ foreach (['DB_HOST', 'DB_NAME', 'DB_USER', 'DB_PASSWORD'] as $requiredDatabaseCo
 }
 
 // Falhar antes de abrir qualquer conexao se houver configuracao de outro site.
-if (DB_NAME !== 'sallesano_setuppro' || DB_USER !== 'setuppro_user') {
+if (DB_NAME !== 'sallesano_setuppro' || DB_USER !== 'setuppro_app') {
     http_response_code(503);
     exit('Use exclusivamente o banco e o usuario do ambiente SetupPro.');
 }
