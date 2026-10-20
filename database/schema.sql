@@ -364,6 +364,14 @@ CREATE TABLE IF NOT EXISTS `videos` (
 -- Somente configuracoes indispensaveis. Gateways iniciam desativados e sem credenciais.
 INSERT INTO `system_info` (`meta_field`, `meta_value`) VALUES
   ('name', 'SetupPro'),
+  ('logo', 'assets/img/setuppro-logo.svg'),
+  ('favicon', 'assets/img/setuppro-logo.svg'),
+  ('theme_primary_color', '#000000'),
+  ('theme_secondary_color', '#ffa424'),
+  ('theme_header_color', '#000000'),
+  ('theme_background_color', '#faf8f9'),
+  ('theme_surface_color', '#ffffff'),
+  ('theme_text_color', '#333124'),
   ('site_description', 'Participe de campanhas com cotas numeradas, acompanhe seus pedidos e confira todas as informações da premiação com clareza e segurança.'),
   ('terms', ''),
   ('theme', '1'),
