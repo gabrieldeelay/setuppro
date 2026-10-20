@@ -54,7 +54,7 @@ if (isset($parts['query'])) {
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
    <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/style.css?v=<?= rawurlencode((string) $styleVersion) ?>">
    <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/hot-pink-theme.css?v=<?= rawurlencode((string) $pinkThemeVersion) ?>">
-   <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/setuppro-mirror.css?v=1">
+   <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/setuppro-mirror.css?v=<?= rawurlencode((string) filemtime(__DIR__ . '/../../assets/css/setuppro-mirror.css')) ?>">
    <script src="<?php echo BASE_URL; ?>includes/jquery/jquery.min.js"></script>
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
    <script>

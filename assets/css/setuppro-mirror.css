@@ -51,4 +51,29 @@ body .mirror-home, body .mirror-archive { margin-top:0!important; }
 body .app-main .app-title h1,body .app-main .SorteioTpl_title__3RLtu { color:#fff!important; }
 body .app-main .SorteioTpl_info__t1BZr,body .app-main .SorteioTpl_sorteioTpl__home { background:#0f121a!important; color:#fff!important; }
 body .app-main .SorteioTpl_descricao__1b7iL,body .app-main .SorteioTpl_dtSorteio__2mfSc { color:#eee!important; }
+/* Focused contrast fixes: preserve the original compact page layout. */
+body .mirror-campaign-active { border:2px solid #f3da19; padding:5px; background:#12151c; }
+body .mirror-campaign-active .mirror-badge { background:#f3da19; color:#171a0c!important; padding:3px 7px; }
+body .mirror-campaign-active h2 { font-weight:650!important; }
+body .mirror-campaign-closed { background:#292e36; border:1px solid #464c55; }
+body .mirror-campaign-closed > img { filter:saturate(.6); }
+body .mirror-campaign-closed h2 { color:#d2d7df!important; font-weight:500!important; }
+body .mirror-campaign-closed p,body .mirror-campaign-closed time { color:#c1c8d2!important; }
+body .mirror-campaign-closed .mirror-badge { background:#414852; color:#e0e5ec!important; font-weight:500; }
+body .vendasExpressNumsSelect.v2 .item { background:#2a3038!important; border:1px solid #a1a9b5!important; box-shadow:none!important; }
+body .vendasExpressNumsSelect.v2 .item .item-content { background:transparent!important; background-image:none!important; }
+body .vendasExpressNumsSelect.v2 .item .item-content h3,body .vendasExpressNumsSelect.v2 .item .item-content h3 small { color:#fff!important; }
+body .vendasExpressNumsSelect.v2 .item .item-content p { color:#e0e5ec!important; }
+body .vendasExpressNumsSelect.v2 .item.mais-popular,body .vendasExpressNumsSelect.v2 .item.mais-popular .item-content,body .vendasExpressNumsSelect.v2 .item.active,body .vendasExpressNumsSelect.v2 .item.active .item-content { background:#f3da19!important; background-image:none!important; border-color:#f3da19!important; }
+body .vendasExpressNumsSelect.v2 .item.mais-popular .item-content h3,body .vendasExpressNumsSelect.v2 .item.mais-popular .item-content h3 small,body .vendasExpressNumsSelect.v2 .item.mais-popular .item-content p,body .vendasExpressNumsSelect.v2 .item.active .item-content h3,body .vendasExpressNumsSelect.v2 .item.active .item-content h3 small,body .vendasExpressNumsSelect.v2 .item.active .item-content p { color:#171a0c!important; }
+body .vendasExpressNumsSelect .item.mais-popular::before { background:#0f121a!important; color:#fff!important; }
+body .ranking-spotlight { background:#1f252e!important; border:1px solid #a1a9b5!important; color:#fff!important; box-shadow:none!important; }
+body .ranking-spotlight .ranking-spotlight__title,body .ranking-spotlight .ranking-spotlight__arrow { color:#fff!important; }
+body .ranking-spotlight .ranking-spotlight__icon { background:#f3da19!important; color:#171a0c!important; }
+body .numeroChange { color:#f3da19!important; }
+body .qty.form-control { background:#252b33!important; color:#fff!important; border-color:#a1a9b5!important; }
+body .btn-descricao,body .btn-descricao * { color:#f3da19!important; }
+body .purchase-submit-button { background:#0b0e13!important; color:#fff!important; border:1px solid #a1a9b5!important; }
+body .purchase-submit-button * { color:#fff!important; }
+a:focus-visible,button:focus-visible,summary:focus-visible { outline:2px solid #f3da19!important; outline-offset:3px; }
 @media(max-width:620px) { body .app-main { width:100%!important; }.mirror-header-row { padding:0 15px; }.mirror-campaign h2 { font-size:14px!important; }.mirror-title h1 { font-size:20px!important; } }
