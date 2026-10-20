@@ -70,8 +70,9 @@ if ($target === 'home') {
 		&& str_contains($html, 'Comprador ' . $suffix)
 		&& str_contains($html, 'margin-top:auto')
         && str_contains($html, 'Desenvolvido por')
-        && str_contains($html, 'NXP GAMING SOLUTION LTDA')
-        && str_contains($html, '64.895.043/0001-65')
+        && str_contains($html, htmlspecialchars((string) $_settings->info('name'), ENT_QUOTES, 'UTF-8'))
+        && !str_contains($html, 'NXP GAMING SOLUTION LTDA')
+        && !str_contains($html, '64.895.043/0001-65')
         && !str_contains($html, 'Entrar em contato')
         && !str_contains($html, 'suportejnsalles.vercel.app')
         && !str_contains($html, '/contato.php?site=');
