@@ -61,7 +61,7 @@ if ($selectedProductId <= 0 && $products) {
     </header>
 
     <?php if (!$products): ?>
-      <section class="buyer-unavailable"><h3>Área indisponível</h3><p>Ative “Exibir contador” em uma campanha na aba Ranking. A aba Maior Comprador ficará disponível enquanto o contador estiver ligado.</p></section>
+      <section class="buyer-unavailable"><h3>Configure o período do ranking</h3><p>Para usar as funções de Maior Comprador, escolha uma campanha na aba Ranking, defina o início e o encerramento e ative “Exibir contador”. O período define quais pagamentos entram na classificação.</p><a href="./?page=ranking" style="display:inline-block;margin-top:18px;padding:11px 18px;border-radius:9px;background:#7c3aed;color:#fff;font-size:12px;font-weight:700;text-decoration:none">Configurar na aba Ranking</a></section>
     <?php else: ?>
       <section class="buyer-overview" aria-label="Resumo da ação">
         <div class="buyer-overview-item"><small>Horário de Brasília</small><strong id="buyer-current-time">--:--:--</strong></div>

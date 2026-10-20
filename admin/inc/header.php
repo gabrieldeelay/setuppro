@@ -11,13 +11,8 @@ $user_name = trim((string) $_settings->userdata('firstname') . ' ' . (string) $_
 if ($user_name === '') {
     $user_name = (string) $_settings->userdata('username');
 }
-$biggestBuyerAvailable = false;
-$biggestBuyerAvailability = $conn->query(
-    "SELECT 1 FROM system_info WHERE meta_field REGEXP '^ranking_timer_[0-9]+_enabled$' AND meta_value = '1' LIMIT 1"
-);
-if ($biggestBuyerAvailability && $biggestBuyerAvailability->num_rows > 0) {
-    $biggestBuyerAvailable = true;
-}
+// Keep this administrative section discoverable before a timer is configured.
+$biggestBuyerAvailable = true;
 
 switch ($pageTitle) {
     case 'products':
