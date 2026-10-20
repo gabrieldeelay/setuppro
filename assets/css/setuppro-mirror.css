@@ -75,5 +75,6 @@ body .qty.form-control { background:#252b33!important; color:#fff!important; bor
 body .btn-descricao,body .btn-descricao * { color:#f3da19!important; }
 body .purchase-submit-button { background:#0b0e13!important; color:#fff!important; border:1px solid #a1a9b5!important; }
 body .purchase-submit-button * { color:#fff!important; }
+body .purchase-helper-card,body .purchase-helper-card .card-body,body .purchase-helper-card p { color:#e0e5ec!important; }
 a:focus-visible,button:focus-visible,summary:focus-visible { outline:2px solid #f3da19!important; outline-offset:3px; }
 @media(max-width:620px) { body .app-main { width:100%!important; }.mirror-header-row { padding:0 15px; }.mirror-campaign h2 { font-size:14px!important; }.mirror-title h1 { font-size:20px!important; } }
