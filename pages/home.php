@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../includes/setuppro_archive.php';
-$campaigns = $conn->query("SELECT * FROM product_list WHERE delete_flag = 0 AND private_draw = 0 ORDER BY CASE WHEN status = 1 THEN 0 WHEN status = 2 THEN 1 ELSE 2 END, date_created DESC, id DESC LIMIT 10");
+$campaigns = $conn->query("SELECT * FROM product_list WHERE delete_flag = 0 AND private_draw = 0 ORDER BY CASE WHEN status = 1 THEN 0 WHEN status = 2 THEN 1 ELSE 2 END, featured_draw DESC, date_created DESC, id DESC LIMIT 10");
 ?>
 <div class="container app-main mirror-home">
     <div class="mirror-title"><h1>⚡ Sorteios</h1><span>Escolha sua sorte</span></div>

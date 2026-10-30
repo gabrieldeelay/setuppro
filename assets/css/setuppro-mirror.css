@@ -83,4 +83,19 @@ body .purchase-submit-button * { color:#fff!important; }
 body .purchase-helper-card,body .purchase-helper-card .card-body,body .purchase-helper-card p { color:#e0e5ec!important; }
 a:focus-visible,button:focus-visible,summary:focus-visible { outline:2px solid #f3da19!important; outline-offset:3px; }
 @media(max-width:620px) { body .app-main { width:100%!important; }.mirror-header-row { padding:0 15px; }.mirror-campaign h2 { font-size:14px!important; }.mirror-title h1 { font-size:20px!important; } }
-@media(max-width:420px) { body .mirror-campaign-active { min-height:118px; gap:10px; }body .mirror-campaign-active > img { flex-basis:98px; width:98px; height:98px; }body .mirror-campaign-active h2 { font-size:15px!important; } }
+/* Active campaigns use a full-width image; completed cards remain compact. */
+html body .mirror-home .mirror-campaign-active { display:flex; flex-direction:column; min-height:0; gap:0; padding:6px; }
+html body .mirror-home .mirror-campaign-active > img { flex:0 0 auto; width:100%; height:auto; max-height:360px; object-fit:contain; background:#0f121a; border-radius:7px; }
+html body .mirror-home .mirror-campaign-active .mirror-campaign-copy { width:100%; align-self:stretch; padding:14px 9px 12px; }
+html body .mirror-home .mirror-campaign-active h2 { font-size:18px!important; line-height:1.3; margin-bottom:4px; }
+html body .mirror-home .mirror-campaign-active .mirror-badge { margin-top:6px; }
+/* Natural image ratio replaces fixed white frames in campaign galleries. */
+html body .campanha-header.custom-highlight-card { width:100%!important; max-width:100%!important; margin:0!important; height:auto!important; display:block!important; overflow:hidden; }
+html body .campanha-header.custom-highlight-card .SorteioTpl_imagemContainer__2-pl4,
+html body .campanha-header.custom-highlight-card .SorteioTpl_imagemContainer__2-pl4 .carousel,
+html body .campanha-header.custom-highlight-card .SorteioTpl_imagemContainer__2-pl4 .carousel-inner,
+html body .campanha-header.custom-highlight-card .SorteioTpl_imagemContainer__2-pl4 .carousel-item { width:100%!important; height:auto!important; min-height:0!important; max-height:none!important; aspect-ratio:auto!important; background:#0f121a!important; }
+html body .campanha-header.custom-highlight-card .carousel-inner .custom-image img.SorteioTpl_imagem__2GXxI { display:block; width:100%!important; height:auto!important; min-height:0!important; max-height:none!important; object-fit:contain!important; }
+html body .campanha-header.custom-highlight-card .custom-content-wrapper-details { position:static!important; background:#0f121a!important; padding:14px!important; }
+html body .campanha-header.custom-highlight-card .custom-badge-display { top:10px!important; left:10px!important; right:auto!important; height:fit-content!important; max-height:30px!important; align-items:flex-start!important; z-index:2; }
+@media(max-width:420px) { html body .mirror-home .mirror-campaign-active h2 { font-size:16px!important; } }
