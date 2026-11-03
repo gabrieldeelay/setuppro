@@ -797,7 +797,7 @@ echo isset($subtitle) ? $subtitle : '';
 echo '</p>' . "\r\n" . '      ';
 
 if ($status_display != '4' && $status_display != '5') {
-    echo '        <div class="btn btn-sm bg-gradient-dark text-white border-0 font-xs py-1 box-shadow-08 w-100 rounded-0" data-bs-toggle="modal" data-bs-target="#modal-consultaCompras">' . "\r\n" . '            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="MuiBox-root css-1j8ryas iconify iconify--mdi" sx="[object Object]" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="currentColor" d="M9 20c0 1.1-.9 2-2 2s-2-.9-2-2s.9-2 2-2s2 .9 2 2m8-2c-1.1 0-2 .9-2 2s.9 2 2 2s2-.9 2-2s-.9-2-2-2m-9.8-3.2v-.1l.9-1.7h7.4c.7 0 1.4-.4 1.7-1l3.9-7l-1.7-1l-3.9 7h-7L4.3 2H1v2h2l3.6 7.6L5.2 14c-.1.3-.2.6-.2 1c0 1.1.9 2 2 2h12v-2H7.4c-.1 0-.2-.1-.2-.2M18 2.8l-1.4-1.4l-4.8 4.8l-2.6-2.6L7.8 5l4 4z"></path></svg>Meus títulos' . "\r\n" . '         </div>' . "\r\n" . '      ';
+    echo '        <a class="btn btn-sm bg-gradient-dark text-white border-0 font-xs py-1 box-shadow-08 w-100 rounded-0" href="/meus-numeros?campanha=' . (int) $id . '">Meus títulos</a>';
 }
 
 echo '
