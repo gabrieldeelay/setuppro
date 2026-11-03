@@ -96,6 +96,6 @@ html body .campanha-header.custom-highlight-card .SorteioTpl_imagemContainer__2-
 html body .campanha-header.custom-highlight-card .SorteioTpl_imagemContainer__2-pl4 .carousel-inner,
 html body .campanha-header.custom-highlight-card .SorteioTpl_imagemContainer__2-pl4 .carousel-item { width:100%!important; height:auto!important; min-height:0!important; max-height:none!important; aspect-ratio:auto!important; background:#0f121a!important; }
 html body .campanha-header.custom-highlight-card .carousel-inner .custom-image img.SorteioTpl_imagem__2GXxI { display:block; width:100%!important; height:auto!important; min-height:0!important; max-height:none!important; object-fit:contain!important; }
-html body .campanha-header.custom-highlight-card .custom-content-wrapper-details { position:static!important; background:#0f121a!important; padding:14px!important; }
+html body .campanha-header.custom-highlight-card .custom-content-wrapper-details { position:relative!important; z-index:11!important; background:#0f121a!important; padding:14px!important; }
 html body .campanha-header.custom-highlight-card .custom-badge-display { top:10px!important; left:10px!important; right:auto!important; height:fit-content!important; max-height:30px!important; align-items:flex-start!important; z-index:2; }
 @media(max-width:420px) { html body .mirror-home .mirror-campaign-active h2 { font-size:16px!important; } }
