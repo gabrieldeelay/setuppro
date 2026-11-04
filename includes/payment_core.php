@@ -321,7 +321,11 @@ function payment_http($method, $url, array $headers = [], $body = null, $certifi
         }
         $lastError = error_get_last();
         $error = $raw === false ? (string) ($lastError['message'] ?? 'Falha de comunicação HTTP.') : '';
-        $json = is_string($raw) ? json_decode($raw, true) : null;
+        $json = null;
+        if (is_string($raw)) {
+            $normalizedRaw = preg_replace('/^\xEF\xBB\xBF/', '', trim($raw));
+            $json = json_decode($normalizedRaw, true);
+        }
         $ok = $error === '' && $status >= 200 && $status < 300;
         return ['ok' => $ok, 'status' => $status, 'json' => is_array($json) ? $json : [], 'headers' => $responseHeaders, 'error' => $error];
     }
@@ -338,6 +342,7 @@ function payment_http($method, $url, array $headers = [], $body = null, $certifi
         CURLOPT_HTTPHEADER => $headers,
         CURLOPT_SSL_VERIFYPEER => true,
         CURLOPT_SSL_VERIFYHOST => 2,
+        CURLOPT_ENCODING => '',
         CURLOPT_HEADERFUNCTION => function ($curlHandle, $headerLine) use (&$responseHeaders) {
             $length = strlen($headerLine);
             $parts = explode(':', $headerLine, 2);
@@ -361,10 +366,41 @@ function payment_http($method, $url, array $headers = [], $body = null, $certifi
     curl_setopt_array($curl, $options);
     $raw = curl_exec($curl);
     $error = curl_error($curl);
+    $errorCode = curl_errno($curl);
     $status = (int) curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
+    // A hospedagem pode ficar temporariamente sem resolver DNS externo mesmo
+    // com o site no ar. Mantemos um fallback restrito ao host oficial da
+    // VenoPag; o certificado TLS continua sendo validado para o domínio.
+    $requestHost = strtolower((string) parse_url($url, PHP_URL_HOST));
+    if ($errorCode === CURLE_COULDNT_RESOLVE_HOST && $requestHost === 'venopagments.com') {
+        $configuredIps = trim((string) getenv('VENOPAG_RESOLVE_IPS'));
+        $resolveIps = $configuredIps !== ''
+            ? preg_split('/\s*,\s*/', $configuredIps, -1, PREG_SPLIT_NO_EMPTY)
+            : ['104.26.1.38', '104.26.0.38', '172.67.70.39'];
+        foreach ($resolveIps as $resolveIp) {
+            if (!filter_var($resolveIp, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
+                continue;
+            }
+            $responseHeaders = [];
+            curl_setopt($curl, CURLOPT_RESOLVE, ['venopagments.com:443:' . $resolveIp]);
+            $raw = curl_exec($curl);
+            $error = curl_error($curl);
+            $errorCode = curl_errno($curl);
+            $status = (int) curl_getinfo($curl, CURLINFO_HTTP_CODE);
+            if ($errorCode === 0 && $status > 0) {
+                error_log('[payments] venopag DNS fallback used');
+                break;
+            }
+        }
+    }
     curl_close($curl);
 
-    $json = is_string($raw) ? json_decode($raw, true) : null;
+    $json = null;
+    if (is_string($raw)) {
+        $normalizedRaw = preg_replace('/^\xEF\xBB\xBF/', '', trim($raw));
+        $json = json_decode($normalizedRaw, true);
+    }
     $ok = $error === '' && $status >= 200 && $status < 300;
     return ['ok' => $ok, 'status' => $status, 'json' => is_array($json) ? $json : [], 'headers' => $responseHeaders, 'error' => $error];
 }
@@ -906,8 +942,11 @@ function payment_venopag_credentials()
         'headers' => [
             'X-Client-Id: ' . $clientId,
             'X-Client-Secret: ' . $clientSecret,
+            'Authorization: Basic ' . base64_encode($clientId . ':' . $clientSecret),
             'Accept: application/json',
+            'Accept-Encoding: identity',
             'Content-Type: application/json',
+            'User-Agent: SetupPro-Payment/1.0 (+https://setuppro.com.br)',
         ],
     ];
 }
