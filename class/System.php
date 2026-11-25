@@ -22,6 +22,25 @@ class System extends DBConnection
         return $this->conn;
     }
 
+    private function apply_payment_environment_overrides()
+    {
+        $environmentMap = [
+            'gateway_provider' => 'PAYMENT_GATEWAY_PROVIDER',
+            'bspay' => 'BSPAY_ENABLED',
+            'bspay_client_id' => 'BSPAY_CLIENT_ID',
+            'bspay_client_secret' => 'BSPAY_CLIENT_SECRET',
+            'bspay_webhook_secret' => 'BSPAY_WEBHOOK_SECRET',
+            'bspay_tax' => 'BSPAY_TAX',
+        ];
+
+        foreach ($environmentMap as $field => $environmentName) {
+            $value = getenv($environmentName);
+            if ($value !== false && trim((string) $value) !== '') {
+                $_SESSION['system_info'][$field] = trim((string) $value);
+            }
+        }
+    }
+
     public function load_system_info()
     {
         $sql = 'SELECT * FROM system_info';
@@ -30,6 +49,8 @@ class System extends DBConnection
         while ($row = $qry->fetch_assoc()) {
             $_SESSION['system_info'][$row['meta_field']] = $row['meta_value'];
         }
+
+        $this->apply_payment_environment_overrides();
     }
 
     public function update_system_info()
@@ -44,6 +65,8 @@ class System extends DBConnection
 
             $_SESSION['system_info'][$row['meta_field']] = $row['meta_value'];
         }
+
+        $this->apply_payment_environment_overrides();
 
         return true;
     }
