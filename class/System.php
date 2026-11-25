@@ -35,6 +35,9 @@ class System extends DBConnection
 
         foreach ($environmentMap as $field => $environmentName) {
             $value = getenv($environmentName);
+            if (($value === false || trim((string) $value) === '') && defined($environmentName)) {
+                $value = constant($environmentName);
+            }
             if ($value !== false && trim((string) $value) !== '') {
                 $_SESSION['system_info'][$field] = trim((string) $value);
             }
