@@ -1712,6 +1712,85 @@ class Main extends DBConnection
         ];
     }
 
+    public function biggest_buyer_venopag_report()
+    {
+        if (!$this->biggest_buyer_authorized()) {
+            http_response_code(403);
+            return json_encode(['status' => 'failed', 'msg' => 'Não autorizado.']);
+        }
+
+        $definitions = payment_provider_definitions();
+        $provider = strtolower(trim((string) ($_GET['provider'] ?? 'auto')));
+        if ($provider === 'auto') {
+            // Read the current selection on every refresh, including changes in another tab.
+            $selection = $this->conn->query("SELECT meta_value FROM system_info WHERE meta_field = 'gateway_provider' LIMIT 1");
+            $selected = $selection ? $selection->fetch_assoc() : null;
+            $provider = strtolower(trim((string) ($selected['meta_value'] ?? payment_setting('gateway_provider', 'bspay'))));
+            if ($provider === 'split') {
+                $provider = 'venopag';
+            }
+            if (!isset($definitions[$provider])) {
+                $provider = payment_active_provider() ?: 'bspay';
+            }
+        }
+        if (!isset($definitions[$provider])) {
+            http_response_code(400);
+            return json_encode(['status' => 'failed', 'msg' => 'Gateway inválido.']);
+        }
+        $paymentMethod = $definitions[$provider]['method'];
+
+        $timezone = new DateTimeZone('America/Sao_Paulo');
+        $today = new DateTimeImmutable('today', $timezone);
+        $parse = static function ($value, DateTimeImmutable $fallback) use ($timezone) {
+            $value = trim((string) $value);
+            foreach (['!Y-m-d\TH:i', '!Y-m-d H:i', '!Y-m-d'] as $format) {
+                $date = DateTimeImmutable::createFromFormat($format, $value, $timezone);
+                $errors = DateTimeImmutable::getLastErrors();
+                if ($date && ($errors === false || ($errors['warning_count'] === 0 && $errors['error_count'] === 0))) {
+                    return $date;
+                }
+            }
+            return $fallback;
+        };
+
+        $start = $parse($_GET['start_at'] ?? '', $today);
+        $end = $parse($_GET['end_at'] ?? '', $today->setTime(23, 59, 59));
+        if ($start > $end) {
+            [$start, $end] = [$end, $start];
+        }
+        $startValue = $start->format('Y-m-d H:i:00');
+        $endValue = $end->format('Y-m-d H:i:59');
+
+        $statement = $this->conn->prepare(
+            "SELECT COUNT(*) AS orders_count, COALESCE(SUM(quantity), 0) AS quantity, "
+            . "COALESCE(SUM(total_amount), 0) AS revenue FROM order_list "
+            . "WHERE status = 2 AND payment_method = ? AND date_created BETWEEN ? AND ?"
+        );
+        if (!$statement) {
+            return json_encode(['status' => 'failed', 'msg' => 'Não foi possível carregar o resumo agora.']);
+        }
+        $statement->bind_param('sss', $paymentMethod, $startValue, $endValue);
+        $statement->execute();
+        $summary = $statement->get_result()->fetch_assoc() ?: [];
+        $statement->close();
+
+        return json_encode([
+            'status' => 'success',
+            'provider' => $provider,
+            'provider_label' => $definitions[$provider]['label'],
+            'server_time' => payment_local_datetime(),
+            'period' => [
+                'start_at' => $start->format('Y-m-d\TH:i'),
+                'end_at' => $end->format('Y-m-d\TH:i'),
+            ],
+            'summary' => [
+                'revenue' => (float) ($summary['revenue'] ?? 0),
+                'orders_count' => (int) ($summary['orders_count'] ?? 0),
+                'quantity' => (int) ($summary['quantity'] ?? 0),
+            ],
+        ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    }
+
     public function biggest_buyer_state()
     {
         if (!$this->biggest_buyer_authorized()) {
@@ -7436,6 +7515,10 @@ switch ($action) {
         break;
     case "preview_manual_order_numbers":
         echo $Main->preview_manual_order_numbers();
+        break;
+    case "biggest_buyer_venopag_report":
+        header('Content-Type: application/json; charset=UTF-8');
+        echo $Main->biggest_buyer_venopag_report();
         break;
     case "biggest_buyer_state":
         header('Content-Type: application/json; charset=UTF-8');

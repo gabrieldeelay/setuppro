@@ -39,6 +39,9 @@ if (is_array($storedAction) && ($storedAction['status'] ?? '') === 'active') {
 if ($selectedProductId <= 0 && $products) {
     $selectedProductId = (int) $products[0]['id'];
 }
+$reportToday = new DateTimeImmutable('today', new DateTimeZone('America/Sao_Paulo'));
+$reportStartValue = $reportToday->format('Y-m-d\T00:00');
+$reportEndValue = $reportToday->format('Y-m-d\T23:59');
 ?>
 
 <style>
@@ -51,7 +54,7 @@ if ($selectedProductId <= 0 && $products) {
 .buyer-ranking-toolbar{display:flex;align-items:center;gap:8px}.buyer-ranking-list{display:grid;gap:8px;padding:14px}.buyer-rank{display:grid;grid-template-columns:45px minmax(0,1fr) auto;align-items:center;gap:10px;padding:12px 13px;border:1px solid #2f3d53;border-radius:12px;background:#0d1728;transition:background .2s ease,border-color .2s ease}.buyer-rank:first-child{padding-top:14px;padding-bottom:14px;border-color:rgba(245,158,11,.35);background:linear-gradient(90deg,rgba(120,53,15,.2),#0d1728)}.buyer-rank.target{border-color:rgba(139,92,246,.55);background:linear-gradient(90deg,rgba(91,33,182,.25),#0d1728)}.buyer-rank-position{display:grid;width:38px;height:38px;place-items:center;border-radius:10px;background:#19263a;color:#c4b5fd;font-size:13px;font-weight:950}.buyer-rank:first-child .buyer-rank-position{background:rgba(180,83,9,.26);color:#fde68a}.buyer-rank-name{overflow:hidden;color:#f8fafc;font-size:12px;font-weight:800;text-overflow:ellipsis;white-space:nowrap}.buyer-rank-name small{display:block;margin-top:3px;color:#6f829d;font-size:9px;font-weight:700}.buyer-rank-quantity{color:#dbe5f3;font-size:13px;font-weight:900;text-align:right}.buyer-rank-quantity small{display:block;margin-top:2px;color:#6f829d;font-size:8px;text-transform:uppercase}.buyer-empty{padding:34px!important;color:#8394ad!important;text-align:center;font-size:12px}.buyer-orders{grid-column:1/-1}.buyer-order-list{display:grid;gap:8px}.buyer-order{display:grid;grid-template-columns:minmax(180px,1.4fr) 90px 110px 100px 110px;align-items:center;gap:12px;padding:12px 14px;border:1px solid #2f3d53;border-radius:12px;background:#0d1728}.buyer-order-person{min-width:0}.buyer-order-person strong{display:block;overflow:hidden;color:#f8fafc;font-size:12px;text-overflow:ellipsis;white-space:nowrap}.buyer-order-person time{display:block;margin-top:3px;color:#71839d;font-size:10px}.buyer-order-cell small{display:block;margin-bottom:3px;color:#657892;font-size:8px;font-weight:850;text-transform:uppercase}.buyer-order-cell strong{color:#cbd5e1;font-size:11px}.buyer-chip{display:inline-flex;padding:5px 8px;border-radius:999px;background:#273449;color:#cbd5e1;font-size:9px;font-weight:850}.buyer-chip.manual{background:rgba(109,40,217,.27);color:#ddd6fe}.buyer-chip.paid{background:rgba(6,78,59,.55);color:#a7f3d0}.buyer-chip.pending{background:rgba(120,53,15,.5);color:#fde68a}.buyer-chip.cancelled{background:rgba(127,29,29,.45);color:#fecaca}.buyer-unavailable{padding:38px;border:1px solid #334155;border-radius:17px;background:#111827;color:#cbd5e1;text-align:center}.buyer-unavailable h3{margin:0 0 7px;color:#f8fafc;font-size:19px}.buyer-unavailable p{max-width:620px;margin:0 auto;color:#94a3b8;font-size:12px;line-height:1.6}
 .buyer-toast-stack{position:fixed;z-index:9999;top:20px;right:24px;display:grid;width:min(410px,calc(100vw - 32px));gap:10px;pointer-events:none}.buyer-toast{display:grid;grid-template-columns:34px minmax(0,1fr);align-items:center;gap:11px;padding:13px 15px;border:1px solid rgba(167,139,250,.34);border-radius:14px;background:rgba(15,23,42,.97);color:#eef2ff;box-shadow:0 20px 55px rgba(0,0,0,.42);font-size:12px;font-weight:750;line-height:1.45;animation:buyer-toast-in .22s ease-out}.buyer-toast:before{display:grid;width:34px;height:34px;place-items:center;border-radius:10px;background:rgba(124,58,237,.22);color:#c4b5fd;font-size:17px;content:"◎"}.buyer-toast.success{border-color:rgba(52,211,153,.34)}.buyer-toast.success:before{background:rgba(6,78,59,.58);color:#6ee7b7;content:"✓"}.buyer-toast.neutral:before{content:"↔"}.buyer-toast.leaving{opacity:0;transform:translateY(-6px);transition:opacity .2s ease,transform .2s ease}@keyframes buyer-toast-in{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:1080px){.buyer-grid{grid-template-columns:1fr}.buyer-orders{grid-column:auto}}@media(max-width:760px){.buyer-shell{padding:24px 14px 46px}.buyer-head{align-items:flex-start;flex-direction:column}.buyer-head h2{font-size:27px}.buyer-overview{grid-template-columns:1fr}.buyer-row,.buyer-time-preview{grid-template-columns:1fr}.buyer-duration{grid-template-columns:repeat(2,minmax(0,1fr))}.buyer-actions{grid-template-columns:1fr 1fr}.buyer-actions .buyer-danger{grid-column:1/-1}.buyer-order{grid-template-columns:1fr 1fr;gap:10px}.buyer-order-person{grid-column:1/-1}.buyer-clock strong{font-size:44px}.buyer-toast-stack{top:12px;right:16px}}@media(max-width:430px){.buyer-card-body,.buyer-card-head{padding-right:14px;padding-left:14px}.buyer-duration{gap:5px}.buyer-duration label{height:41px;font-size:10px}.buyer-custom-duration{grid-template-columns:1fr}.buyer-custom-duration input{width:100%!important}.buyer-actions{grid-template-columns:1fr}.buyer-actions .buyer-danger{grid-column:auto}.buyer-order{grid-template-columns:1fr}.buyer-order-person{grid-column:auto}.buyer-live-badge{min-width:0}.buyer-ranking-toolbar{align-items:stretch;flex-direction:column}}
-</style>
+.buyer-report-body{padding:20px}.buyer-report-filter,.buyer-report-meta{display:flex;gap:12px;margin:14px 0}.buyer-report-field{flex:1;min-width:0}.buyer-report-field label,.buyer-report-value small,.buyer-report-meta small{display:block;margin-bottom:6px}.buyer-report-field input,.buyer-report-field select{width:100%;padding:9px;background:#111a2a;color:#fff;border:1px solid #34425a;border-radius:8px}.buyer-report-value strong{font-size:28px}.buyer-report-updated{font-size:12px;color:#91a2ba}</style>
 
 <main class="h-full overflow-y-auto">
   <div class="container mx-auto buyer-shell">
@@ -95,6 +98,17 @@ if ($selectedProductId <= 0 && $products) {
           <header class="buyer-card-head"><div class="buyer-card-title"><span class="buyer-card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4Z"></path><path d="M7 6H4v2a4 4 0 0 0 4 4M17 6h3v2a4 4 0 0 1-4 4"></path></svg></span><div><h3>Top 5</h3><p>Classificação atualizada a cada segundo.</p></div></div><div class="buyer-ranking-toolbar"><button id="buyer-open-ranking" class="buyer-secondary" type="button">Abrir Ranking</button></div></header>
           <div id="buyer-ranking-list" class="buyer-ranking-list"><div class="buyer-empty">Carregando ranking...</div></div>
         </section>
+
+          <section class="buyer-card">
+            <header class="buyer-card-head"><div class="buyer-card-title"><span class="buyer-card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"></path></svg></span><div><h3 id="buyer-report-title">Resumo BSPay</h3><p>Somente pagamentos confirmados no período.</p></div></div></header>
+            <div class="buyer-report-body">
+              <div class="buyer-report-field"><label for="buyer-report-gateway">Gateway</label><select id="buyer-report-gateway" class="form-control"><option value="auto">Automático (gateway ativo)</option><option value="bspay">BSPay</option><option value="venopag">VenoPag</option><option value="pay2m">Pay2M</option><option value="mercadopago">Mercado Pago</option><option value="gerencianet">Efí / Gerencianet</option><option value="openpix">OpenPix / Woovi</option><option value="paggue">Paggue</option></select></div>
+              <div class="buyer-report-filter"><div class="buyer-report-field"><label for="buyer-report-start">Início</label><input id="buyer-report-start" type="datetime-local" value="<?= $escape($reportStartValue) ?>"></div><div class="buyer-report-field"><label for="buyer-report-end">Fim</label><input id="buyer-report-end" type="datetime-local" value="<?= $escape($reportEndValue) ?>"></div></div>
+              <div class="buyer-report-value"><small>Valor pago no período</small><strong id="buyer-report-revenue">R$ 0,00</strong></div>
+              <div class="buyer-report-meta"><div><small>Pagamentos</small><strong id="buyer-report-orders">0</strong></div><div><small>Cotas confirmadas</small><strong id="buyer-report-quantity">0</strong></div></div>
+              <p id="buyer-report-updated" class="buyer-report-updated">Atualizando em tempo real...</p>
+            </div>
+          </section>
 
         <section class="buyer-card buyer-orders">
           <header class="buyer-card-head"><div class="buyer-card-title"><span class="buyer-card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2V3Z"></path><path d="M9 8h6M9 12h6M9 16h3"></path></svg></span><div><h3>Últimos pedidos</h3><p>As 5 movimentações mais recentes, da mais nova para a mais antiga.</p></div></div></header>
@@ -143,6 +157,15 @@ if ($selectedProductId <= 0 && $products) {
   var formEndTime = document.getElementById('buyer-form-end-time');
   var rankingList = document.getElementById('buyer-ranking-list');
   var orderList = document.getElementById('buyer-order-list');
+  var reportGateway = document.getElementById('buyer-report-gateway');
+  var reportTitle = document.getElementById('buyer-report-title');
+  var reportStart = document.getElementById('buyer-report-start');
+  var reportEnd = document.getElementById('buyer-report-end');
+  var reportRevenue = document.getElementById('buyer-report-revenue');
+  var reportOrders = document.getElementById('buyer-report-orders');
+  var reportQuantity = document.getElementById('buyer-report-quantity');
+  var reportUpdated = document.getElementById('buyer-report-updated');
+  var reportBusy = false;
   var runtimeAlert = document.getElementById('buyer-runtime-alert');
   var pollBusy = false;
   var remainingSeconds = 0;
@@ -319,6 +342,17 @@ if ($selectedProductId <= 0 && $products) {
       item.append(person, amount, quantity, origin, status); orderList.appendChild(item);
     });
   }
+  function refreshVenoPagReport() {
+    if (reportBusy || !reportStart || !reportEnd) return;
+    reportBusy = true;
+    var url = endpoint + 'biggest_buyer_venopag_report&provider=' + encodeURIComponent(reportGateway.value) + '&start_at=' + encodeURIComponent(reportStart.value) + '&end_at=' + encodeURIComponent(reportEnd.value) + '&_=' + Date.now();
+    fetch(url, {credentials:'same-origin', cache:'no-store'}).then(function (response) { return response.json(); }).then(function (state) {
+      if (!state || state.status !== 'success') throw new Error((state && state.msg) || 'Resumo indisponível.');
+      reportTitle.textContent = 'Resumo ' + (state.provider_label || 'BSPay');
+      var summary = state.summary || {}; reportRevenue.textContent = money(summary.revenue); reportOrders.textContent = integer(summary.orders_count); reportQuantity.textContent = integer(summary.quantity);
+      reportUpdated.textContent = 'Atualizado às ' + String(state.server_time || '').slice(11,19) + ' — horário de Brasília';
+    }).catch(function () { reportUpdated.textContent = 'Não foi possível atualizar o resumo agora.'; }).finally(function () { reportBusy = false; });
+  }
   function render(state) {
     if (!state || state.status !== 'success') { showFeedback((state && state.msg) || 'Não foi possível atualizar a tela.', 'error'); return; }
     rememberCustomer(state.customer);
@@ -365,7 +399,9 @@ if ($selectedProductId <= 0 && $products) {
   product.addEventListener('change', function () { savePreferences(); fetch(endpoint + 'biggest_buyer_state&product_id=' + encodeURIComponent(product.value), {credentials:'same-origin'}).then(function (response) { return response.json(); }).then(render); });
   document.getElementById('buyer-open-ranking').addEventListener('click', function () { window.open('biggest_buyer/display.php?product_id=' + encodeURIComponent(product.value), 'jnsalles-ranking', 'popup=yes,width=980,height=760,resizable=yes,scrollbars=yes'); });
   window.setInterval(function () { if (remainingSeconds > 0) { remainingSeconds -= 1; clockTime.textContent = formatClock(remainingSeconds); } updateTimes(); }, 1000);
-  restorePreferences(); poll(); window.setInterval(poll, 1000);
+  reportGateway.addEventListener('change', refreshVenoPagReport);
+  reportStart.addEventListener('change', refreshVenoPagReport); reportEnd.addEventListener('change', refreshVenoPagReport);
+  restorePreferences(); poll(); refreshVenoPagReport(); window.setInterval(poll, 1000); window.setInterval(refreshVenoPagReport, 5000);
 })();
 </script>
 <?php endif; ?>
