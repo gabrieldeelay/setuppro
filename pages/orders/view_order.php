@@ -153,7 +153,7 @@ $cotas_premiadas = explode(',', $cotas_p);
 $cotas_premiadas_roleta = explode(',', $cotas_p_roleta);
 $cotas_premiadas_box = explode(',', $cotas_p_box);
 $my_numbers = 0;
-$my_numbers = $orderitem['order_numbers'];
+$my_numbers = (int) $orderitem['status'] === 2 ? $orderitem['order_numbers'] : '';
 $my_numbers = explode(',', $my_numbers);
 
 // Inicialize a página atual com base no parâmetro da URL ou padrão para 1
@@ -1169,17 +1169,16 @@ if (isset($_GET['id']) && $_GET['id'] > 0) {
                         </div>
                     </div>
                     <div class="item  align-items-baseline container">
-                        <?php if ($type_of_draw == 1 && $status == 1 && $enable_hide_numbers == 1) {
+                        <?php if ((int) $status !== 2) {
                             echo ' <div style="margin-left:-12px" class="title font-weight-500 me-1">                       <i class="bi me-1 bi-card-list"></i> 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                Cotas:</div>';
                         } ?>
                         <div class="result font-xs  row" data-nosnippet="true" style="overflow:hidden; gap:4px;">
                             <?php
-                            if ($type_of_draw > 2) {
+                            if ((int) $status !== 2) {
+                                echo '<p class="alert alert-warning p-2 mt-2">Os números serão exibidos após a confirmação do pagamento.</p>';
+                            } elseif ($type_of_draw > 2) {
                                 echo leowp_format_luck_numbers($my_numbers, $row['qty_numbers'], $class = 'alert-success', $opt = true, $type_of_draw);
-                            } elseif ($type_of_draw == 1 && $status == 1 && $enable_hide_numbers == 1) {
-                                echo '            <p class="alert alert-warning p-2 mt-2 font-xss" style="text-align: justify; margin-bottom:0.5rem !important">As cotas serão geradas após o pagamento.</p>
-       ';
                             } else {
                                 echo leowp_format_luck_numbers($sliced_numbers, $row['qty_numbers'], $class = 'alert-success ', $opt = true, $type_of_draw);
 

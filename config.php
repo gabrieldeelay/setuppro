@@ -1156,7 +1156,9 @@ function order_email($message, $title, $order_id)
 			$customer_name = $row['firstname'] . ' ' . $row['lastname'];
 			$customer_email = $row['email'];
 			$product_name = $row['product_name'];
-			$order_numbers = implode(',', jnsalles_format_ticket_list($row['order_numbers'], $row['qty_numbers']));
+			$order_numbers = (int) $row['status'] === 2
+				? implode(',', jnsalles_format_ticket_list($row['order_numbers'], $row['qty_numbers']))
+				: 'Os números serão exibidos após a confirmação do pagamento.';
 			$order_total = $row['total_amount'];
 			$product_id = $row['product_id'];
 			$status = $row['status'];

@@ -933,7 +933,15 @@ class Master extends DBConnection
 	public function send_order_whatsapp($phone, $name, $pname, $cotas, $total, $message, $pix, $order_token)
 {
     $token_dwapi = $this->settings->info('token_dwapi');
-    $cotas = rtrim($cotas, ',');
+    // Consultar o estado persistido: mensagens pendentes nunca revelam cotas.
+    $statement = $this->conn->prepare('SELECT status FROM order_list WHERE order_token = ? LIMIT 1');
+    $statement->bind_param('s', $order_token);
+    $statement->execute();
+    $order = $statement->get_result()->fetch_assoc();
+    $statement->close();
+    $cotas = (int) ($order['status'] ?? 0) === 2
+        ? rtrim($cotas, ',')
+        : 'Os números serão exibidos após a confirmação do pagamento.';
     $pix = ($pix != '' ? $pix : '');
 
     if (!empty($message)) {
@@ -1841,6 +1849,19 @@ class Master extends DBConnection
 
 	public function load_numbers()
 	{
+        // A listagem pública não pode revelar a alocação de campanhas automáticas.
+        if ((int) $this->settings->userdata('login_type') !== 1 || (int) $this->settings->userdata('id') <= 0) {
+            $campaignId = (int) ($_POST['id'] ?? 0);
+            $campaignQuery = $this->conn->prepare('SELECT type_of_draw FROM product_list WHERE id = ? LIMIT 1');
+            $campaignQuery->bind_param('i', $campaignId);
+            $campaignQuery->execute();
+            $campaign = $campaignQuery->get_result()->fetch_assoc();
+            $campaignQuery->close();
+            if (!$campaign || (int) $campaign['type_of_draw'] === 1) {
+                return json_encode(['status' => 'failed', 'msg' => 'Os números serão exibidos após a confirmação do pagamento.']);
+            }
+        }
+
 		$status = $_POST['status'];
 		$id = $_POST['id'];
 		$resultado = [];

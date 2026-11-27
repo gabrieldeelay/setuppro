@@ -2,7 +2,7 @@
 
 
 echo ' ';
-$enable_hide_numbers = $_settings->info('enable_hide_numbers');
+
 
 if ($_settings->userdata('id') != '') {
 	$qry = $conn->query('SELECT * FROM `customer_list` where id = \'' . $_settings->userdata('id') . '\'');
@@ -30,6 +30,9 @@ while ($row = $orders->fetch_assoc()) {
 	$border = '';
 	$btn = '';
 	$status = $row['status'];
+	if ((int) $status !== 2) {
+		$row['order_numbers'] = '';
+	}
 
 	if ($row['status'] == '1') {
 		$class = 'bg-warning';
@@ -64,11 +67,11 @@ while ($row = $orders->fetch_assoc()) {
 		$nCollection = explode(',', $row['order_numbers']);
 		$qty_nums = count($nCollection);
 
-		if (1 < $type_of_draw) {
-			echo drope_format_luck_numbers_dashboard($row['order_numbers'], $row['qty_numbers'], $class, $opt = true, $type_of_draw);
+		if ((int) $status !== 2) {
+			echo 'Os números serão exibidos após a confirmação do pagamento.';
 		}
-		else if (($type_of_draw == 1) && $status == 1 && $enable_hide_numbers == 1) {
-			echo 'As cotas serão geradas após o pagamento.';
+		else if (1 < $type_of_draw) {
+			echo drope_format_luck_numbers_dashboard($row['order_numbers'], $row['qty_numbers'], $class, $opt = true, $type_of_draw);
 		}
 		else {
 			echo '<div class="drope-tab">' . "\r\n" . '                        <input id="drope-tab-' . $row['id'] . '" type="checkbox">' . "\r\n" . '                        <label for="drope-tab-' . $row['id'] . '">Ver números</label>' . "\r\n" . '                        <div class="drope-content">' . drope_format_luck_numbers_dashboard($row['order_numbers'], $row['quantity'], $class = false, $opt = true, $type_of_draw) . '</div>' . "\r\n" . '                        </div>';

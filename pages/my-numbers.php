@@ -1,6 +1,6 @@
 <?php
 $enable_cpf = (int) $_settings->info('enable_cpf') === 1;
-$hide_numbers = (int) $_settings->info('enable_hide_numbers') === 1;
+
 $campaign_id = filter_input(INPUT_GET, 'campanha', FILTER_VALIDATE_INT);
 $campaign_id = $campaign_id && $campaign_id > 0 ? $campaign_id : null;
 $escape = static function ($value) {
@@ -103,8 +103,8 @@ if ($searched) {
         $status = (int) $order['status'];
         $status_label = $status === 2 ? 'Pago' : ($status === 1 ? 'Aguardando pagamento' : 'Cancelado');
         $status_class = $status === 2 ? 'success' : ($status === 1 ? 'warning' : 'danger');
-        $numbers = trim((string) $order['order_numbers']);
-        $show_numbers = $numbers !== '' && !($hide_numbers && $status !== 2 && (int) $order['type_of_draw'] === 1);
+        $numbers = $status === 2 ? trim((string) $order['order_numbers']) : '';
+        $show_numbers = $status === 2 && $numbers !== '';
         ?>
         <article class="card app-card mb-3 border-<?= $status_class ?>">
             <div class="card-body">
